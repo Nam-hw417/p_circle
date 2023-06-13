@@ -1,0 +1,65 @@
+
+
+1. how to make value?
+ > data analysis
+ > machine learning
+ > large language model
+
+
+2. how to make service(product)?
+ > backend (flask, django)
+ > frontend (html, js, css)
+ > server (docker)
+
+
+3. how to make marketing?
+ > stp (who is customer?)
+ > 4p-4s
+ > digital marketing
+
+
+
+
+
+
+import openai
+import json
+
+with open('config.json') as config_file:
+  config = json.load(config_file)
+
+### config.json  {"OPENAI_API_KEY": "*******************"} ###
+
+openai.api_key = config['OPENAI_API_KEY']
+
+
+from IPython.display import Markdown, display
+
+def display_colors(colors):
+  display(Markdown(" ".join(
+   f"<span style ='color:{color}'>{chr(9608)*4}</span>"
+   for color in colors)))
+
+
+def get_and_render_colors_chat(msg):
+
+  messages = [
+   {'role':'system', 'content':'....'},
+   {'role':'user', 'content':'...'},
+   {'role':'assistant', 'content':'["#006699", ...]'},
+   {'role':'user', 'content':'........]'},
+   {'role':'assistant', 'content': '["#EDF1D6",...]'},
+   {'role':'user', 'content':f"convert the following :{msg}"}
+  ]
+
+  response = openai.ChatCompletion.create(  
+    messages = messages,
+    model = "gpt-3.5-turbo",
+    max_tokens = 200
+  )
+
+  colors = json.loads(response['choices'][0]['message']['content'])
+  print(colors)
+  display_colors(colors)
+
+ 
